@@ -74,9 +74,9 @@ public class TransmutationScenes {
         scene.idle(20);
         scene.overlay().showControls(filterSlot, Pointing.DOWN, 30).withItem(new ItemStack(Items.NETHERRACK));
         scene.idle(10);
-        scene.world().modifyBlockEntity(center, TransmutationEncasedShaftBlockEntity.class, be -> {
-            be.filtering.setFilter(Direction.NORTH, new ItemStack(Items.NETHERRACK));
-        });
+        scene.world().modifyBlockEntity(center, TransmutationEncasedShaftBlockEntity.class, be ->
+            be.filtering.setFilter(Direction.NORTH, new ItemStack(Items.NETHERRACK))
+        );
         scene.idle(40);
  
         BlockPos depotPos = new BlockPos(2, 1, 1);
