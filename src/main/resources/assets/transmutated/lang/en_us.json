@@ -1,6 +1,24 @@
 {
   "item.transmutated.matter": "Matter",
 
-  "block.transmutated.transmutation_block": "Transmutation Block",
-  "block.transmutated.encased_transmutation_shaft": "Encased Transmutation Shaft"
+  "block.transmutated.transmutation_casing": "Transmutation Casing",
+  "block.transmutated.encased_transmutation_shaft": "Encased Transmutation Shaft",
+
+  "transmutated.gui.filtering_label": "Alteration",
+  "transmutated.gui.jei.alteration": "Alt.",
+  "transmutated.gui.jei.count": "x%s",
+
+  "transmutated.ponder.transmutation.header": "Transmutation Basics",
+  "transmutated.ponder.transmutation.text_1": "Apply a Transmutation Casing to a shaft",
+  "transmutated.ponder.transmutation.text_2": "Higher rotation speed increases transmutation frequency",
+  "transmutated.ponder.transmutation.text_3": "Uses high stress",
+  "transmutated.ponder.transmutation.text_4": "Insert filter item to define output",
+  "transmutated.ponder.transmutation.text_5": "Processes items based on filter",
+  "transmutated.ponder.transmutation.text_6": "Emits a redstone pulse upon every cycle",
+  "transmutated.ponder.transmutation.text_7": "Some recipes require multiple items",
+
+  "transmutated.config.transmutation_timer": "Base transmutation time (ticks)",
+  "transmutated.config.transmutation_timer.tooltip": "Ticks required at 256 RPM. Scaling: T = (Timer * 65536) / Speed^2. Default 8 is 524288/Speed^2.",
+  "transmutated.config.transmutation_stress": "Stress applied by the transmutation casing",
+  "transmutated.config.transmutation_stress.tooltip": "Base stress impact. Total stress = Base * Speed (RPM)."
 }

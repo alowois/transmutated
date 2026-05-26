@@ -2,7 +2,9 @@ package com.alowois.transmutated;
 
 import com.alowois.transmutated.block.entity.ModBlockEntities;
 import com.alowois.transmutated.block.entity.TransmutationEncasedShaftRenderer;
+import com.alowois.transmutated.compat.ponder.TransmutatedPonderPlugin;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -15,25 +17,44 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
-// This class will not load on dedicated servers. Accessing client side code from here is safe.
+/**
+ * Handles client-side initialization for the Transmutated mod.
+ * This class is only loaded on the client and is safe to access client-only code.
+ */
 @Mod(value = Transmutated.MODID, dist = Dist.CLIENT)
 public class TransmutatedClient {
+    /**
+     * Constructor for the client-side mod class.
+     * Registers client-specific event listeners and configuration screen factories.
+     *
+     * @param container    The mod container.
+     * @param modEventBus  The mod-specific event bus.
+     */
     public TransmutatedClient(ModContainer container, IEventBus modEventBus) {
-        // Allows NeoForge to create a config screen for this mod's configs.
-        // The config screen is accessed by going to the Mods screen > clicking on your mod > clicking on config.
-        // Do not forget to add translations for your config options to the en_us.json file.
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
         modEventBus.addListener(this::onClientSetup);
         modEventBus.addListener(this::registerRenderers);
     }
 
+    /**
+     * Fired during client setup.
+     * Used for registering plugins like Ponder and other client-side logic.
+     *
+     * @param event The client setup event.
+     */
     private void onClientSetup(FMLClientSetupEvent event) {
-        // Some client setup code
         Transmutated.LOGGER.info("HELLO FROM CLIENT SETUP");
         Transmutated.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+        PonderIndex.addPlugin(new TransmutatedPonderPlugin());
     }
 
+    /**
+     * Registers block entity renderers.
+     *
+     * @param event The register renderers event.
+     */
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.ENCASED_TRANSMUTATION_SHAFT.get(), TransmutationEncasedShaftRenderer::new);
     }

@@ -1,6 +1,14 @@
 {
   "item.transmutated.matter": "Matière",
 
-  "block.transmutated.transmutation_block": "Bloc de transmutation",
-  "block.transmutated.encased_transmutation_shaft": "Arbre de transmutation encaissé"
+  "block.transmutated.transmutation_casing": "Casing de transmutation",
+  "block.transmutated.encased_transmutation_shaft": "Arbre de transmutation encaissé",
+  "transmutated.ponder.transmutation.header": "Bases de la transmutation",
+  "transmutated.ponder.transmutation.text_1": "Appliquer un casing de transmutation sur un arbre",
+  "transmutated.ponder.transmutation.text_2": "Une vitesse de rotation plus élevée augmente la fréquence de transmutation",
+  "transmutated.ponder.transmutation.text_3": "Utilise beaucoup de stress",
+  "transmutated.ponder.transmutation.text_4": "Insérer un objet de filtre pour définir la sortie",
+  "transmutated.ponder.transmutation.text_5": "Traite les objets selon le filtre",
+  "transmutated.ponder.transmutation.text_6": "Émet une impulsion de redstone à chaque cycle",
+  "transmutated.ponder.transmutation.text_7": "Certaines recettes nécessitent plusieurs objets"
 }

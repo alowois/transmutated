@@ -1,36 +1,42 @@
 package com.alowois.transmutated;
 
-import java.util.List;
-
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
-// Demonstrates how to use Neo's config APIs
+/**
+ * Configuration class for the Transmutated mod.
+ * Uses NeoForge ModConfigSpec to define and build common configurations.
+ */
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
+    /**
+     * Ticks required for transmutation at 256 RPM.
+     * The actual time taken depends on the rotation speed and follows an inverse square curve.
+     * Time (ticks) = (transmutationTimer * 65536) / speed^2
+     * Default: 8 (0.4 seconds at 256 RPM)
+     */
+    public static final ModConfigSpec.IntValue TRANSMUTATION_TIMER = BUILDER
+            .comment(" Ticks required for transmutation at 256 RPM")
+            .comment(" The actual time taken depends on the rotation speed and follows an inverse square curve.")
+            .comment(" Time (ticks) = (transmutationTimer * 65536) / speed^2")
+            .comment(" Default 8 results in 524288 / speed^2")
+            .translation("transmutated.config.transmutation_timer")
+            .defineInRange("transmutationTimer", 8, 1, Integer.MAX_VALUE);
 
-    public static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+    /**
+     * Stress applied by the transmutation casing.
+     * Calculated as value * rotation speed.
+     */
+    public static final ModConfigSpec.IntValue TRANSMUTATION_STRESS = BUILDER
+            .comment(" Stress applied by the transmutation casing")
+            .comment(" Careful, stress must be multiplied by the rotation speed.")
+            .comment(" So with a stress at 256su, the minimum stress requirement of the block is 16,384su at 64rpm.")
+            .translation("transmutated.config.transmutation_stress")
+            .defineInRange("transmutationStress", 256, 0, Integer.MAX_VALUE);
 
-    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message to be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
 
-    // a list of strings that are treated as resource locations for items
-    public static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
-            .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), () -> "", Config::validateItemName);
-
+    /**
+     * The built configuration specification.
+     */
     static final ModConfigSpec SPEC = BUILDER.build();
-
-    private static boolean validateItemName(final Object obj) {
-        return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
-    }
 }

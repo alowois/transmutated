@@ -1,0 +1,15 @@
+{
+  "type": "transmutated:transmutation",
+  "input": {
+    "item": "create:empty_blaze_burner"
+  },
+  "input_count": 1,
+  "output": {
+    "id": "create:blaze_burner",
+    "count": 1
+  },
+  "success_percentage": 1.0,
+  "alteration": {
+    "item": "minecraft:netherrack"
+  }
+}

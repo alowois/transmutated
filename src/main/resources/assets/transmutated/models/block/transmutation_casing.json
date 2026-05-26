@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "transmutated:block/transmutation_casing_top",
+    "side": "transmutated:block/transmutation_casing_side"
+  }
+}

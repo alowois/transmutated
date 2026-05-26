@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "transmutated:block/encased_transmutation_shaft",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "transmutated:block/encased_transmutation_shaft"
+    },
+    "axis=z": {
+      "model": "transmutated:block/encased_transmutation_shaft",
+      "x": 90
+    }
+  }
+}

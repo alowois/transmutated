@@ -3,6 +3,7 @@ package com.alowois.transmutated;
 import com.alowois.transmutated.block.ModBlocks;
 import com.alowois.transmutated.block.entity.ModBlockEntities;
 import com.alowois.transmutated.item.ModItems;
+import com.alowois.transmutated.recipe.ModRecipeTypes;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.decoration.encasing.EncasingRegistry;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -20,16 +21,30 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
+/**
+ * The main mod class for Transmutated.
+ * This class handles mod initialization, registration of items, blocks, and block entities,
+ * and sets up common mod configurations.
+ */
 @Mod(Transmutated.MODID)
 public class Transmutated {
-    // Define mod id in a common place for everything to reference
+    /**
+     * The unique identifier for the mod.
+     */
     public static final String MODID = "transmutated";
-    // Directly reference a slf4j logger
+
+    /**
+     * Logger for the mod, used for debug and info messages.
+     */
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    // The constructor for the mod class is the first code that is run when your mod is loaded.
-    // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
+    /**
+     * Constructor for the main mod class.
+     * Registers components to the mod event bus and initializes configuration.
+     *
+     * @param modEventBus  The mod-specific event bus.
+     * @param modContainer The container for this mod.
+     */
     public Transmutated(IEventBus modEventBus, ModContainer modContainer) {
 
         modEventBus.addListener(this::commonSetup);
@@ -39,30 +54,45 @@ public class Transmutated {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModRecipeTypes.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
+    /**
+     * Handles common setup tasks that occur after all mods have been initialized.
+     * Includes registering block variants and initializing recipe types.
+     *
+     * @param event The common setup event.
+     */
     private void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             EncasingRegistry.addVariant(AllBlocks.SHAFT.get(), ModBlocks.ENCASED_TRANSMUTATION_SHAFT.get());
         });
     }
 
-    // Add the example block item to the building blocks tab
+    /**
+     * Populates creative mode tabs with mod items and blocks.
+     *
+     * @param event The creative mode tab content event.
+     */
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(ModItems.MATTER);
         }
 
         if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
-            event.accept(ModBlocks.TRANSMUTATION_BLOCK);
+            event.accept(ModBlocks.TRANSMUTATION_CASING);
         }
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
+    /**
+     * Fired when the server is starting.
+     *
+     * @param event The server starting event.
+     */
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
     }
