@@ -45,8 +45,8 @@ public class TransmutationCategory implements IRecipeCategory<TransmutationRecip
      */
     public TransmutationCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createBlankDrawable(120, 45);
-        this.icon = guiHelper.createDrawableItemStack(new ItemStack(ModBlocks.ENCASED_TRANSMUTATION_SHAFT.get()));
-        this.localizedName = Component.translatable("block.transmutated.encased_transmutation_shaft");
+        this.icon = guiHelper.createDrawableItemStack(new ItemStack(ModBlocks.TRANSMUTATION_CASING.get()));
+        this.localizedName = Component.translatable("block.transmutated.transmutation_casing");
         this.slot = guiHelper.getSlotDrawable();
     }
 
@@ -82,9 +82,6 @@ public class TransmutationCategory implements IRecipeCategory<TransmutationRecip
         Component alterationText = Component.translatable("transmutated.gui.jei.alteration");
         guiGraphics.drawString(font, alterationText, 14 - font.width(alterationText) / 2, 26, 0xFF404040, false);
 
-        // Draw item count requirement label
-        Component countText = Component.translatable("transmutated.gui.jei.count", recipe.getInputCount());
-        guiGraphics.drawString(font, countText, 44 - font.width(countText) / 2, 26, 0xFF404040, false);
 
         // Draw success percentage if not 100%
         if (recipe.getSuccessPercentage() < 1.0f) {
@@ -100,11 +97,9 @@ public class TransmutationCategory implements IRecipeCategory<TransmutationRecip
                 .addIngredients(recipe.getAlteration().orElse(Ingredient.EMPTY))
                 .setBackground(slot, -1, -1);
 
-        // Define the input slot with the required count
+        // Define the input slot
         builder.addSlot(RecipeIngredientRole.INPUT, 35, 5)
-                .addIngredients(VanillaTypes.ITEM_STACK, Arrays.stream(recipe.getInput().getItems())
-                        .map(stack -> stack.copyWithCount(recipe.getInputCount()))
-                        .toList())
+                .addIngredients(recipe.getInput())
                 .setBackground(slot, -1, -1);
 
         // Define the output slot

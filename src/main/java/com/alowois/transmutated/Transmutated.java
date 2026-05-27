@@ -6,6 +6,10 @@ import com.alowois.transmutated.item.ModItems;
 import com.alowois.transmutated.recipe.ModRecipeTypes;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.decoration.encasing.EncasingRegistry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.NeoForge;
@@ -81,9 +85,13 @@ public class Transmutated {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(ModItems.MATTER);
+            event.accept(ModItems.MATTER_SHARD);
+            event.accept(ModItems.COMBINED_MATTER_SHARDS);
+            event.accept(ModItems.HALF_MATTER);
         }
 
-        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
+        ResourceKey<CreativeModeTab> createTab = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath("create", "base"));
+        if (event.getTabKey() == createTab) {
             event.accept(ModBlocks.TRANSMUTATION_CASING);
         }
     }

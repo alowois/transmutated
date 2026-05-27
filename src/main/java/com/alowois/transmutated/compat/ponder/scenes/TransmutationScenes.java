@@ -29,12 +29,8 @@ public class TransmutationScenes {
         BlockPos center = new BlockPos(2, 1, 2);
  
         // Shaft setup
-        for (int x = 0; x < 5; x++) {
-            if (x == 2) continue;
-            scene.world().setBlock(new BlockPos(x, 1, 2), AllBlocks.SHAFT.getDefaultState().setValue(BlockStateProperties.AXIS, Direction.Axis.X), false);
-        }
         scene.world().setBlock(center, AllBlocks.SHAFT.getDefaultState().setValue(BlockStateProperties.AXIS, Direction.Axis.X), false);
- 
+
         scene.world().showSection(util.select().fromTo(0, 1, 2, 4, 1, 2), Direction.DOWN);
         scene.idle(10);
  
@@ -80,7 +76,6 @@ public class TransmutationScenes {
         scene.idle(40);
  
         BlockPos depotPos = new BlockPos(2, 1, 1);
-        scene.world().setBlock(depotPos, AllBlocks.DEPOT.getDefaultState(), true);
         scene.world().showSection(util.select().position(depotPos), Direction.SOUTH);
         scene.idle(10);
  

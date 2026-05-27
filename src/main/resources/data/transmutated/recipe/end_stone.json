@@ -3,10 +3,8 @@
   "input": {
     "item": "minecraft:stone"
   },
-  "input_count": 1,
   "output": {
-    "id": "minecraft:end_stone",
-    "count": 1
+    "id": "minecraft:end_stone"
   },
   "success_percentage": 1.0,
   "alteration": {

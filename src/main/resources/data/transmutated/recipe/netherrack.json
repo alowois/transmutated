@@ -3,10 +3,8 @@
   "input": {
     "item": "minecraft:stone"
   },
-  "input_count": 1,
   "output": {
-    "id": "minecraft:netherrack",
-    "count": 1
+    "id": "minecraft:netherrack"
   },
   "success_percentage": 0.6,
   "alteration": {

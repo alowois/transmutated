@@ -1,0 +1,21 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "transmutated:half_matter"
+    },
+    {
+      "item": "transmutated:half_matter"
+    },
+    {
+      "fluid": "minecraft:lava",
+      "type": "fluid_stack",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "id": "transmutated:matter"
+    }
+  ]
+}

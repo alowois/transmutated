@@ -1,5 +1,6 @@
 package com.alowois.transmutated.recipe;
 
+import com.alowois.transmutated.Transmutated;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -12,15 +13,13 @@ import java.util.function.Predicate;
  */
 public class TransmutationRecipe implements Recipe<RecipeInput> {
     private final Ingredient input;
-    private final int inputCount;
     private final ItemStack result;
     private final float successPercentage;
     private final Optional<Ingredient> alteration;
 
-    public TransmutationRecipe(Ingredient input, int inputCount, ItemStack result, float successPercentage, Optional<Ingredient> alteration) {
+    public TransmutationRecipe(Ingredient input, ItemStack result, float successPercentage, Optional<Ingredient> alteration) {
         this.input = input;
-        this.inputCount = inputCount;
-        this.result = result;
+        this.result = result.copyWithCount(1);
         this.successPercentage = successPercentage;
         this.alteration = alteration;
     }
@@ -41,17 +40,30 @@ public class TransmutationRecipe implements Recipe<RecipeInput> {
      */
     public boolean matches(ItemStack filterStack, Predicate<ItemStack> filterTest, ItemStack inputStack) {
         if (inputStack.isEmpty()) return false;
-        if (!this.input.test(inputStack)) return false;
+        if (!this.input.test(inputStack)) {
+            return false;
+        }
 
         if (this.alteration.isPresent()) {
-            if (filterStack.isEmpty()) return false;
-            for (ItemStack stack : this.alteration.get().getItems()) {
-                if (filterTest.test(stack)) return true;
+            if (filterStack.isEmpty()) {
+                Transmutated.LOGGER.info("Recipe requires alteration but filter is empty");
+                return false;
             }
+            for (ItemStack stack : this.alteration.get().getItems()) {
+                if (filterTest.test(stack)) {
+                    Transmutated.LOGGER.info("Filter matches required alteration: {}", stack);
+                    return true;
+                }
+            }
+            Transmutated.LOGGER.info("Filter does not match any required alteration");
             return false;
         }
         // If no alteration is required, match if filter is empty OR if filter accepts the input item
-        return filterStack.isEmpty() || filterTest.test(inputStack);
+        boolean result = filterStack.isEmpty() || filterTest.test(inputStack);
+        if (!result) {
+            Transmutated.LOGGER.info("No alteration required, but filter {} does not accept input {}", filterStack, inputStack);
+        }
+        return result;
     }
 
     @Override
@@ -80,7 +92,6 @@ public class TransmutationRecipe implements Recipe<RecipeInput> {
     }
 
     public Ingredient getInput() { return input; }
-    public int getInputCount() { return inputCount; }
     public ItemStack getResult() { return result; }
     public float getSuccessPercentage() { return successPercentage; }
     public Optional<Ingredient> getAlteration() { return alteration; }

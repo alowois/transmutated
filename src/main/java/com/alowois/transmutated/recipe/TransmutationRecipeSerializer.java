@@ -18,7 +18,6 @@ import java.util.Optional;
 public class TransmutationRecipeSerializer implements RecipeSerializer<TransmutationRecipe> {
     public static final MapCodec<TransmutationRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
             Ingredient.CODEC.fieldOf("input").forGetter(TransmutationRecipe::getInput),
-            Codec.INT.optionalFieldOf("input_count", 1).forGetter(TransmutationRecipe::getInputCount),
             ItemStack.CODEC.fieldOf("output").forGetter(TransmutationRecipe::getResult),
             Codec.FLOAT.optionalFieldOf("success_percentage", 1.0f).forGetter(TransmutationRecipe::getSuccessPercentage),
             Ingredient.CODEC.optionalFieldOf("alteration").forGetter(TransmutationRecipe::getAlteration)
@@ -26,7 +25,6 @@ public class TransmutationRecipeSerializer implements RecipeSerializer<Transmuta
 
     public static final StreamCodec<RegistryFriendlyByteBuf, TransmutationRecipe> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.fromCodecWithRegistries(Ingredient.CODEC), TransmutationRecipe::getInput,
-            ByteBufCodecs.VAR_INT, TransmutationRecipe::getInputCount,
             ItemStack.STREAM_CODEC, TransmutationRecipe::getResult,
             ByteBufCodecs.FLOAT, TransmutationRecipe::getSuccessPercentage,
             ByteBufCodecs.optional(ByteBufCodecs.fromCodecWithRegistries(Ingredient.CODEC)), TransmutationRecipe::getAlteration,

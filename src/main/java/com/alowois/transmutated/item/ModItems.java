@@ -23,6 +23,24 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
 
     /**
+     * Matter shard item, used to craft matter.
+     */
+    public static final DeferredItem<Item> MATTER_SHARD = ITEMS.register("matter_shard",
+            () -> new Item(new Item.Properties()));
+
+    /**
+     * Combined matter shards item.
+     */
+    public static final DeferredItem<Item> COMBINED_MATTER_SHARDS = ITEMS.register("combined_matter_shards",
+            () -> new Item(new Item.Properties()));
+
+    /**
+     * Half matter item.
+     */
+    public static final DeferredItem<Item> HALF_MATTER = ITEMS.register("half_matter",
+            () -> new Item(new Item.Properties()));
+
+    /**
      * Registers the item deferred register to the mod event bus.
      *
      * @param eventBus The mod event bus.

@@ -41,6 +41,6 @@ public class TransmutatedJEI implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ENCASED_TRANSMUTATION_SHAFT.get()), TransmutationCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.TRANSMUTATION_CASING.get()), TransmutationCategory.TYPE);
     }
 }

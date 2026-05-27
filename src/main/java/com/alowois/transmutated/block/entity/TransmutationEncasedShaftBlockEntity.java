@@ -26,6 +26,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.phys.Vec3;
 import com.simibubi.create.foundation.blockEntity.behaviour.ValueBoxRenderer;
+import com.alowois.transmutated.Transmutated;
 import com.alowois.transmutated.Config;
 import com.alowois.transmutated.block.TransmutationEncasedShaftBlock;
 import com.alowois.transmutated.recipe.ModRecipeTypes;
@@ -165,9 +166,12 @@ public class TransmutationEncasedShaftBlockEntity extends KineticBlockEntity {
     private TransmutationRecipe getRecipe(ItemStack input) {
         if (level == null || input.isEmpty()) return null;
         List<RecipeHolder<TransmutationRecipe>> recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.TRANSMUTATION_TYPE.get());
+        Transmutated.LOGGER.info("Checking recipes for input: {}, total recipes found: {}", input, recipes.size());
         for (RecipeHolder<TransmutationRecipe> holder : recipes) {
             TransmutationRecipe recipe = holder.value();
-            if (recipe.matches(filtering.getFilter(), filtering::test, input)) {
+            boolean matches = recipe.matches(filtering.getFilter(), filtering::test, input);
+            Transmutated.LOGGER.info("Recipe {} matches: {}", holder.id(), matches);
+            if (matches) {
                 return recipe;
             }
         }
@@ -218,6 +222,7 @@ public class TransmutationEncasedShaftBlockEntity extends KineticBlockEntity {
      * Checks for recipes and handles item consumption.
      */
     private void performTransmutation() {
+        Transmutated.LOGGER.info("Performing transmutation at {}", worldPosition);
         // Collect all potential items and their recipes
         class ItemSource {
             final Object source; // ItemEntity or DepotBlockEntity
@@ -254,6 +259,7 @@ public class TransmutationEncasedShaftBlockEntity extends KineticBlockEntity {
             ItemStack stack = ie.getItem();
             TransmutationRecipe recipe = getRecipe(stack);
             if (recipe != null) {
+                Transmutated.LOGGER.info("Found item entity source: {} with recipe", stack);
                 sources.add(new ItemSource(ie, stack, recipe));
                 totalCounts.put(recipe, totalCounts.getOrDefault(recipe, 0) + stack.getCount());
             }
@@ -265,6 +271,7 @@ public class TransmutationEncasedShaftBlockEntity extends KineticBlockEntity {
                 ItemStack stack = depot.getHeldItem();
                 TransmutationRecipe recipe = getRecipe(stack);
                 if (recipe != null) {
+                    Transmutated.LOGGER.info("Found depot source at {} with item: {} and recipe", pos, stack);
                     sources.add(new ItemSource(depot, stack, recipe));
                     totalCounts.put(recipe, totalCounts.getOrDefault(recipe, 0) + stack.getCount());
                 }
@@ -272,16 +279,19 @@ public class TransmutationEncasedShaftBlockEntity extends KineticBlockEntity {
         }
 
         // Process each recipe that has enough items
+        Transmutated.LOGGER.info("Total recipe counts: {}", totalCounts.size());
         for (Map.Entry<TransmutationRecipe, Integer> entry : totalCounts.entrySet()) {
             TransmutationRecipe recipe = entry.getKey();
             int totalAvailable = entry.getValue();
-            int inputReq = recipe.getInputCount();
+            int inputReq = 1;
             int totalBatches = totalAvailable / inputReq;
+
+            Transmutated.LOGGER.info("Recipe: {}, Available: {}, Required: {}, Batches: {}", recipe.getResult(), totalAvailable, inputReq, totalBatches);
 
             if (totalBatches > 0) {
                 int toConsume = totalBatches * inputReq;
                 int totalProduced = 0;
-                int outputPerBatch = recipe.getResult().getCount();
+                int outputPerBatch = 1;
 
                 for (int i = 0; i < totalBatches * outputPerBatch; i++) {
                     if (level.random.nextFloat() < recipe.getSuccessPercentage()) {

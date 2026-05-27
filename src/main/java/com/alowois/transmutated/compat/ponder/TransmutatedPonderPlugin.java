@@ -21,7 +21,7 @@ public class TransmutatedPonderPlugin implements PonderPlugin {
         PonderSceneRegistrationHelper<DeferredBlock<?>> HELPER = helper.withKeyFunction(DeferredBlock::getId);
 
         HELPER.forComponents(ModBlocks.TRANSMUTATION_CASING)
-                .addStoryBoard("transmutation", TransmutationScenes::transmutation, AllCreatePonderTags.KINETIC_APPLIANCES);
+                .addStoryBoard("transmutation_casing/transmutation", TransmutationScenes::transmutation, AllCreatePonderTags.KINETIC_APPLIANCES);
     }
 
     @Override
